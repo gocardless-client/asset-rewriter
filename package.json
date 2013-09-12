@@ -9,9 +9,7 @@
     "url": "http://github.com/gocardless-client/asset-rewriter/issues"
   },
   "dependencies": {
-    "file-matches": "git://github.com/gocardless-client/file-matches.git"
-  },
-  "peerDependencies": {
+    "file-matches": "git://github.com/gocardless-client/file-matches.git",
     "lodash": "*"
   },
   "main": "asset-rewriter"
