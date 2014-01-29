@@ -2,6 +2,8 @@
 
 var _ = require('lodash');
 var fileMatches = require('file-matches');
+var url = require('url');
+var path = require('path');
 
 /**
  * AssetRewriter
@@ -54,13 +56,18 @@ fn.assetBuildDest = function assetBuildDest(filepath) {
  * @return {String}
  */
 fn.assetServerDest = function assetServerDest(filepath, options) {
-  options = _.extend({
+  options = _.defaults({}, options, {
     prependPrefix: '',
     stripPrefix: _.result(this.options, 'src')
-  }, options);
+  });
 
   var stripPrefix = new RegExp('^' + options.stripPrefix);
-  return options.prependPrefix + filepath.replace(stripPrefix, '');
+  filepath = filepath.replace(stripPrefix, '');
+  if (url.parse(options.prependPrefix).protocol) {
+    return url.resolve(options.prependPrefix, filepath);
+  } else {
+    return path.join(options.prependPrefix, filepath);
+  }
 };
 
 module.exports = AssetRewriter;
